@@ -13,7 +13,7 @@ body {
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     overflow: hidden;
-    transition: filter 1.2s ease, transform 1.2s ease;
+    transition: transform 0.8s ease, filter 0.8s ease;
 }
 
 /* ===== OVERLAY ===== */
@@ -44,6 +44,7 @@ body {
     font-size: 55px;
     margin-bottom: 10px;
     animation: pulse 1.8s infinite;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
 }
 
 /* BOTONES */
@@ -119,52 +120,27 @@ h1 {
     z-index: 2;
 }
 
-/* ===== NIEBLA REAL ===== */
-.fog {
-    position: fixed;
-    inset: 0;
-    z-index: 800;
-    pointer-events: none;
-    opacity: 0;
-
-    background:
-        radial-gradient(circle at center, rgba(255,255,255,0.15), rgba(255,255,255,0.8)),
-        url("https://www.transparenttextures.com/patterns/cloudy.png");
-
-    background-size: cover, 300px 300px;
-    filter: blur(6px);
-
-    animation: fogIn 1.2s forwards, fogMove 25s linear infinite;
+/* ===== AGUJERO NEGRO ===== */
+.blackhole {
+    animation: suck 0.8s forwards ease-in;
 }
 
-@keyframes fogIn {
-    0% { opacity: 0; }
-    60% { opacity: 0.5; }
-    100% { opacity: 0.9; }
-}
-
-@keyframes fogMove {
-    from { background-position: center, 0 0; }
-    to { background-position: center, 400px 200px; }
-}
-
-/* DESVANECIMIENTO SUAVE */
-.fadeOut {
-    animation: fadeSoft 1.2s forwards;
-}
-
-@keyframes fadeSoft {
+@keyframes suck {
     0% {
         transform: scale(1);
         filter: blur(0px) brightness(1);
     }
-    50% {
-        transform: scale(0.99);
-        filter: blur(2px) brightness(0.95);
+    40% {
+        transform: scale(1.2) rotate(3deg);
+        filter: blur(3px) brightness(1.3);
+    }
+    80% {
+        transform: scale(0.15) rotate(12deg);
+        filter: blur(12px) brightness(2);
     }
     100% {
-        transform: scale(0.97);
-        filter: blur(4px) brightness(0.85);
+        transform: scale(0);
+        filter: blur(25px) brightness(3);
     }
 }
 
@@ -175,12 +151,12 @@ h1 {
     background: white;
     opacity: 0;
     z-index: 9999;
-    animation: flash 0.6s forwards;
+    animation: flash 0.4s forwards;
 }
 
 @keyframes flash {
     0% { opacity: 0; }
-    40% { opacity: 0.6; }
+    50% { opacity: 1; }
     100% { opacity: 0; }
 }
 
@@ -231,7 +207,7 @@ for (let i = 1; i <= 1000; i++) {
     grid.appendChild(div);
 }
 
-/* ===== EFECTO NIEBLA PRO ===== */
+/* ===== EFECTO AGUJERO NEGRO ===== */
 let animando = false;
 
 window.addEventListener("scroll", () => {
@@ -240,35 +216,20 @@ window.addEventListener("scroll", () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
         animando = true;
 
-        document.body.classList.add("fadeOut");
+        document.body.classList.add("blackhole");
 
-        // capa 1
-        const fog1 = document.createElement("div");
-        fog1.className = "fog";
-        document.body.appendChild(fog1);
-
-        // capa 2 (profundidad)
-        const fog2 = document.createElement("div");
-        fog2.className = "fog";
-        fog2.style.opacity = "0.5";
-        fog2.style.animationDuration = "35s";
-        document.body.appendChild(fog2);
-
-        setTimeout(() => {
-            const flash = document.createElement("div");
-            flash.className = "flash";
-            document.body.appendChild(flash);
-        }, 900);
+        const flash = document.createElement("div");
+        flash.className = "flash";
+        document.body.appendChild(flash);
 
         setTimeout(() => {
             window.scrollTo(0, 0);
 
-            document.body.classList.remove("fadeOut");
-            fog1.remove();
-            fog2.remove();
+            document.body.classList.remove("blackhole");
+            flash.remove();
 
             animando = false;
-        }, 1400);
+        }, 800);
     }
 });
 
