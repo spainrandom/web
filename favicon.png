@@ -1,0 +1,26 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Fondo circular -->
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d4af37"></stop>
+      <stop offset="50%" stop-color="#f5d06f"></stop>
+      <stop offset="100%" stop-color="#b8962e"></stop>
+    </linearGradient>
+  </defs>
+
+  <circle cx="512" cy="512" r="480" fill="#1a1a1a"></circle>
+  <circle cx="512" cy="512" r="480" fill="none" stroke="url(#gold)" stroke-width="30"></circle>
+
+  <!-- Marco imagen -->
+  <rect x="260" y="330" width="500" height="350" rx="30" fill="none" stroke="url(#gold)" stroke-width="20"></rect>
+
+  <!-- Montañas -->
+  <path d="M300 650 L450 450 L600 650 Z" fill="none" stroke="url(#gold)" stroke-width="20" stroke-linejoin="round"></path>
+
+  <path d="M500 650 L620 520 L700 650 Z" fill="none" stroke="url(#gold)" stroke-width="20" stroke-linejoin="round"></path>
+
+  <!-- Sol -->
+  <circle cx="650" cy="420" r="35" fill="none" stroke="url(#gold)" stroke-width="20"></circle>
+
+</svg>
