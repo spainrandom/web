@@ -207,32 +207,6 @@ for (let i = 1; i <= 1000; i++) {
     grid.appendChild(div);
 }
 
-/* ===== EFECTO AGUJERO NEGRO ===== */
-let animando = false;
-
-window.addEventListener("scroll", () => {
-    if (animando) return;
-
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
-        animando = true;
-
-        document.body.classList.add("blackhole");
-
-        const flash = document.createElement("div");
-        flash.className = "flash";
-        document.body.appendChild(flash);
-
-        setTimeout(() => {
-            window.scrollTo(0, 0);
-
-            document.body.classList.remove("blackhole");
-            flash.remove();
-
-            animando = false;
-        }, 800);
-    }
-});
-
 /* ===== OVERLAY ===== */
 document.getElementById("yes").onclick = () => {
     const overlay = document.getElementById("overlay");
