@@ -46,7 +46,11 @@ body {
 }
 
 /* BOTONES */
-.buttons { display: flex; gap: 15px; justify-content: center; }
+.buttons { 
+    display: flex; 
+    gap: 15px; 
+    justify-content: center; 
+}
 
 button {
     padding: 14px 20px;
@@ -54,8 +58,37 @@ button {
     border: none;
     cursor: pointer;
     font-weight: bold;
+    position: relative;
+    overflow: hidden;
 }
 
+/* ===== EFECTO LUZ BLANCA ===== */
+button::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.7),
+        transparent
+    );
+    transform: skewX(-20deg);
+}
+
+button:hover::after {
+    animation: shine 0.9s ease;
+}
+
+@keyframes shine {
+    0% { left: -75%; }
+    100% { left: 130%; }
+}
+
+/* COLORES BOTONES */
 #yes { background: #22c55e; color: white; }
 #no { background: #ef4444; color: white; }
 
@@ -184,20 +217,19 @@ for (let i = 1; i <= 1000; i++) {
     div.appendChild(img);
     div.appendChild(span);
 
-    // CLICK → abrir visor
     div.onclick = () => openViewer(img.src);
 
     grid.appendChild(div);
 }
 
-/* ===== SCROLL INFINITO SIMPLE ===== */
+/* SCROLL */
 window.addEventListener("scroll", () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
         window.scrollTo(0, 0);
     }
 });
 
-/* ===== VISOR ===== */
+/* VISOR */
 function openViewer(src) {
     const viewer = document.createElement("div");
     viewer.className = "viewer";
@@ -217,7 +249,7 @@ function openViewer(src) {
     document.body.appendChild(viewer);
 }
 
-/* ===== OVERLAY ===== */
+/* OVERLAY */
 document.getElementById("yes").onclick = () => {
     const overlay = document.getElementById("overlay");
     overlay.style.opacity = "0";
