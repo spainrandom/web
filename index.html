@@ -60,7 +60,7 @@ body {
     margin-bottom: 25px;
 }
 
-/* ===== BOTONES PRO ===== */
+/* BOTONES PRO */
 .buttons {
     display: flex;
     gap: 15px;
@@ -79,7 +79,6 @@ button {
     transition: 0.25s;
 }
 
-/* brillo animado */
 button::before {
     content: "";
     position: absolute;
@@ -95,7 +94,6 @@ button:hover::before {
     left: 100%;
 }
 
-/* verde */
 #yes {
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
@@ -107,7 +105,6 @@ button:hover::before {
     box-shadow: 0 0 35px rgba(34,197,94,0.9);
 }
 
-/* rojo */
 #no {
     background: linear-gradient(135deg, #ef4444, #b91c1c);
     color: white;
@@ -119,13 +116,12 @@ button:hover::before {
     box-shadow: 0 0 35px rgba(239,68,68,0.9);
 }
 
-/* click físico */
 button:active {
     transform: scale(0.95);
     filter: brightness(0.9);
 }
 
-/* ===== GRID ===== */
+/* GRID */
 h1 {
     position: fixed;
     top: 10px;
@@ -203,7 +199,6 @@ h1 {
 
 <body>
 
-<!-- OVERLAY -->
 <div id="overlay">
     <div class="overlay-card">
         <div class="overlay-icon">🔞</div>
@@ -224,11 +219,10 @@ h1 {
 <script>
 const grid = document.getElementById("grid");
 
-/* ===== GENERAR 200 ITEMS ===== */
 const data = [];
 const patterns = ["", "big", "", "tall", "", "wide", "", "", "big", ""];
 
-for (let i = 1; i <= 200; i++) {
+for (let i = 1; i <= 1000; i++) {
     data.push({
         name: "Usuario " + i,
         img: "https://picsum.photos/400?random=" + i,
@@ -236,43 +230,22 @@ for (let i = 1; i <= 200; i++) {
     });
 }
 
-function render(items) {
-    items.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "card " + item.class;
+data.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "card " + item.class;
 
-        div.innerHTML = `
-            <img src="${item.img}">
-            <span>${item.name}</span>
-        `;
+    div.innerHTML = `
+        <img src="${item.img}" loading="lazy">
+        <span>${item.name}</span>
+    `;
 
-        grid.appendChild(div);
-    });
-}
+    grid.appendChild(div);
+});
 
-render(data);
-render(data);
-
-/* LOOP INFINITO */
-let isAdjusting = false;
-
+/* SCROLL RESET */
 window.addEventListener("scroll", () => {
-    if (isAdjusting) return;
-
-    const scrollTop = window.scrollY;
-    const totalHeight = document.body.scrollHeight;
-    const half = totalHeight / 2;
-
-    if (scrollTop > half) {
-        isAdjusting = true;
-        window.scrollTo(0, scrollTop - half);
-        isAdjusting = false;
-    }
-
-    if (scrollTop < 10) {
-        isAdjusting = true;
-        window.scrollTo(0, scrollTop + half);
-        isAdjusting = false;
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 });
 </script>
@@ -280,7 +253,6 @@ window.addEventListener("scroll", () => {
 <script>
 document.getElementById("yes").onclick = () => {
     const overlay = document.getElementById("overlay");
-
     overlay.style.opacity = "0";
     overlay.style.transform = "scale(1.1)";
 
