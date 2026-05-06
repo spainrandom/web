@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -12,9 +11,66 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b);
+    overflow: hidden;
 }
 
-/* título flotante */
+/* ===== OVERLAY +18 ===== */
+#overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(12px);
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    color: white;
+    text-align: center;
+}
+
+#overlay h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#yes {
+    background: #22c55e;
+    color: white;
+}
+
+#yes:hover {
+    background: #16a34a;
+    transform: scale(1.05);
+}
+
+#no {
+    background: #ef4444;
+    color: white;
+}
+
+#no:hover {
+    background: #dc2626;
+    transform: scale(1.05);
+}
+
+/* ===== WEB ===== */
 h1 {
     position: fixed;
     top: 10px;
@@ -25,17 +81,15 @@ h1 {
     z-index: 10;
 }
 
-/* grid principal */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    grid-auto-rows: 140px;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-auto-rows: 120px;
     grid-auto-flow: dense;
-    gap: 8px;
+    gap: 6px;
     padding: 10px;
 }
 
-/* tarjeta */
 .card {
     position: relative;
     overflow: hidden;
@@ -44,7 +98,6 @@ h1 {
     cursor: pointer;
 }
 
-/* imagen */
 .card img {
     width: 100%;
     height: 100%;
@@ -53,16 +106,15 @@ h1 {
     transition: 0.3s;
 }
 
-/* nombre */
 .card span {
     position: absolute;
-    bottom: 6px;
-    left: 6px;
-    font-size: 11px;
+    bottom: 5px;
+    left: 5px;
+    font-size: 10px;
     color: white;
     background: rgba(0,0,0,0.5);
-    padding: 3px 6px;
-    border-radius: 6px;
+    padding: 2px 5px;
+    border-radius: 5px;
 }
 
 /* tamaños */
@@ -70,12 +122,11 @@ h1 {
 .wide { grid-column: span 2; }
 .tall { grid-row: span 2; }
 
-/* efecto divertido */
 .card:nth-child(odd) { transform: rotate(-1deg); }
 .card:nth-child(even) { transform: rotate(1deg); }
 
 .card:hover {
-    transform: scale(1.08) rotate(0deg);
+    transform: scale(1.07) rotate(0deg);
     z-index: 2;
 }
 
@@ -83,72 +134,67 @@ h1 {
     filter: brightness(1);
 }
 </style>
-
 </head>
 
 <body>
 
-<h1>📸 Sube tu imagen y promocionate </h1>
+<!-- OVERLAY -->
+<div id="overlay">
+    <h2>🔞 ¿Eres mayor de 18 años?</h2>
+    <div class="buttons">
+        <button id="yes">Sí, soy mayor de 18 años</button>
+        <button id="no">No, no soy mayor de 18 años</button>
+    </div>
+</div>
+
+<h1>📸 La Galería VIP</h1>
 
 <div class="grid">
 
-<div class="card big"><img src="https://picsum.photos/400?1"><span>Ana</span></div>
-<div class="card"><img src="https://picsum.photos/300?2"><span>Carlos</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?3"><span>Lucía</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?4"><span>David</span></div>
-<div class="card"><img src="https://picsum.photos/300?5"><span>María</span></div>
-<div class="card big"><img src="https://picsum.photos/400?6"><span>Javi</span></div>
-<div class="card"><img src="https://picsum.photos/300?7"><span>Sara</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?8"><span>Pedro</span></div>
-<div class="card"><img src="https://picsum.photos/300?9"><span>Laura</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?10"><span>Raúl</span></div>
+<!-- 200 imágenes generadas -->
+<script>
+const grid = document.currentScript.parentElement;
 
-<div class="card"><img src="https://picsum.photos/300?11"><span>Elena</span></div>
-<div class="card big"><img src="https://picsum.photos/400?12"><span>Iván</span></div>
-<div class="card"><img src="https://picsum.photos/300?13"><span>Nuria</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?14"><span>Pablo</span></div>
-<div class="card"><img src="https://picsum.photos/300?15"><span>Clara</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?16"><span>Adrián</span></div>
-<div class="card"><img src="https://picsum.photos/300?17"><span>Rosa</span></div>
-<div class="card big"><img src="https://picsum.photos/400?18"><span>Diego</span></div>
-<div class="card"><img src="https://picsum.photos/300?19"><span>Marta</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?20"><span>Alex</span></div>
+const names = [
+"Ana","Carlos","Lucía","David","María","Javi","Sara","Pedro","Laura","Raúl",
+"Elena","Iván","Nuria","Pablo","Clara","Adrián","Rosa","Diego","Marta","Alex",
+"Julia","Hugo","Sofía","Bruno","Alicia","Tomás","Vera","Leo","Noa","Eric",
+"Paula","Mario","Alba","Samuel","Inés","Joel","Carmen","Gonzalo","Patri","Dani",
+"Lola","Ángel","Eva","Rubén","Nico","Silvia","Lucas","Valeria","Andrés","Emma"
+];
 
-<div class="card"><img src="https://picsum.photos/300?21"><span>Julia</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?22"><span>Hugo</span></div>
-<div class="card"><img src="https://picsum.photos/300?23"><span>Sofía</span></div>
-<div class="card big"><img src="https://picsum.photos/400?24"><span>Bruno</span></div>
-<div class="card"><img src="https://picsum.photos/300?25"><span>Alicia</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?26"><span>Tomás</span></div>
-<div class="card"><img src="https://picsum.photos/300?27"><span>Vera</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?28"><span>Leo</span></div>
-<div class="card"><img src="https://picsum.photos/300?29"><span>Noa</span></div>
-<div class="card big"><img src="https://picsum.photos/400?30"><span>Eric</span></div>
+for (let i = 1; i <= 200; i++) {
+    const div = document.createElement("div");
+    div.className = "card";
 
-<div class="card"><img src="https://picsum.photos/300?31"><span>Paula</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?32"><span>Mario</span></div>
-<div class="card"><img src="https://picsum.photos/300?33"><span>Alba</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?34"><span>Samuel</span></div>
-<div class="card"><img src="https://picsum.photos/300?35"><span>Inés</span></div>
-<div class="card big"><img src="https://picsum.photos/400?36"><span>Joel</span></div>
-<div class="card"><img src="https://picsum.photos/300?37"><span>Carmen</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?38"><span>Gonzalo</span></div>
-<div class="card"><img src="https://picsum.photos/300?39"><span>Patri</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?40"><span>Dani</span></div>
+    const types = ["", "big", "wide", "tall"];
+    const type = types[Math.floor(Math.random() * types.length)];
+    if (type) div.classList.add(type);
 
-<div class="card"><img src="https://picsum.photos/300?41"><span>Lola</span></div>
-<div class="card big"><img src="https://picsum.photos/400?42"><span>Ángel</span></div>
-<div class="card"><img src="https://picsum.photos/300?43"><span>Eva</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?44"><span>Rubén</span></div>
-<div class="card"><img src="https://picsum.photos/300?45"><span>Nico</span></div>
-<div class="card tall"><img src="https://picsum.photos/200/400?46"><span>Silvia</span></div>
-<div class="card"><img src="https://picsum.photos/300?47"><span>Lucas</span></div>
-<div class="card big"><img src="https://picsum.photos/400?48"><span>Valeria</span></div>
-<div class="card"><img src="https://picsum.photos/300?49"><span>Andrés</span></div>
-<div class="card wide"><img src="https://picsum.photos/400/200?50"><span>Emma</span></div>
+    const name = names[Math.floor(Math.random() * names.length)];
+
+    div.innerHTML = `
+        <img src="https://picsum.photos/400?random=${i}">
+        <span>${name}</span>
+    `;
+
+    grid.appendChild(div);
+}
+</script>
 
 </div>
 
+<!-- JS OVERLAY -->
+<script>
+document.getElementById("yes").onclick = () => {
+    document.getElementById("overlay").style.display = "none";
+    document.body.style.overflow = "auto";
+};
+
+document.getElementById("no").onclick = () => {
+    window.location.href = "https://www.google.com";
+};
+</script>
+
 </body>
 </html>
-
