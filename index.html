@@ -44,7 +44,6 @@ body {
     font-size: 55px;
     margin-bottom: 10px;
     animation: pulse 1.8s infinite;
-    text-shadow: 0 0 20px rgba(255,255,255,0.5);
 }
 
 /* BOTONES */
@@ -120,25 +119,36 @@ h1 {
     z-index: 2;
 }
 
-/* ===== NIEBLA PROFESIONAL ===== */
+/* ===== NIEBLA REAL ===== */
 .fog {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle at center, rgba(255,255,255,0.15), rgba(255,255,255,0.9));
-    backdrop-filter: blur(8px);
-    opacity: 0;
     z-index: 800;
     pointer-events: none;
-    animation: fogIn 1.2s forwards;
+    opacity: 0;
+
+    background:
+        radial-gradient(circle at center, rgba(255,255,255,0.15), rgba(255,255,255,0.8)),
+        url("https://www.transparenttextures.com/patterns/cloudy.png");
+
+    background-size: cover, 300px 300px;
+    filter: blur(6px);
+
+    animation: fogIn 1.2s forwards, fogMove 25s linear infinite;
 }
 
 @keyframes fogIn {
     0% { opacity: 0; }
-    60% { opacity: 0.6; }
-    100% { opacity: 1; }
+    60% { opacity: 0.5; }
+    100% { opacity: 0.9; }
 }
 
-/* DESVANECIMIENTO GENERAL */
+@keyframes fogMove {
+    from { background-position: center, 0 0; }
+    to { background-position: center, 400px 200px; }
+}
+
+/* DESVANECIMIENTO SUAVE */
 .fadeOut {
     animation: fadeSoft 1.2s forwards;
 }
@@ -149,16 +159,16 @@ h1 {
         filter: blur(0px) brightness(1);
     }
     50% {
-        transform: scale(0.98);
-        filter: blur(3px) brightness(0.9);
+        transform: scale(0.99);
+        filter: blur(2px) brightness(0.95);
     }
     100% {
-        transform: scale(0.96);
-        filter: blur(6px) brightness(0.7);
+        transform: scale(0.97);
+        filter: blur(4px) brightness(0.85);
     }
 }
 
-/* FLASH SUAVE */
+/* FLASH FINAL */
 .flash {
     position: fixed;
     inset: 0;
@@ -221,7 +231,7 @@ for (let i = 1; i <= 1000; i++) {
     grid.appendChild(div);
 }
 
-/* ===== EFECTO NIEBLA ===== */
+/* ===== EFECTO NIEBLA PRO ===== */
 let animando = false;
 
 window.addEventListener("scroll", () => {
@@ -232,24 +242,33 @@ window.addEventListener("scroll", () => {
 
         document.body.classList.add("fadeOut");
 
-        const fog = document.createElement("div");
-        fog.className = "fog";
-        document.body.appendChild(fog);
+        // capa 1
+        const fog1 = document.createElement("div");
+        fog1.className = "fog";
+        document.body.appendChild(fog1);
+
+        // capa 2 (profundidad)
+        const fog2 = document.createElement("div");
+        fog2.className = "fog";
+        fog2.style.opacity = "0.5";
+        fog2.style.animationDuration = "35s";
+        document.body.appendChild(fog2);
 
         setTimeout(() => {
             const flash = document.createElement("div");
             flash.className = "flash";
             document.body.appendChild(flash);
-        }, 800);
+        }, 900);
 
         setTimeout(() => {
             window.scrollTo(0, 0);
 
             document.body.classList.remove("fadeOut");
-            fog.remove();
+            fog1.remove();
+            fog2.remove();
 
             animando = false;
-        }, 1300);
+        }, 1400);
     }
 });
 
