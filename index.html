@@ -183,43 +183,48 @@ h1 {
 <script>
 const grid = document.getElementById("grid");
 
-/* ===== DATOS FIJOS ===== */
-/* SOLO EDITAS AQUÍ */
-const data = [
-  {name:"Ana", img:"https://picsum.photos/400?1", class:"big"},
-  {name:"Carlos", img:"https://picsum.photos/400?2", class:""},
-  {name:"Lucía", img:"https://picsum.photos/400?3", class:"tall"},
-  {name:"David", img:"https://picsum.photos/400?4", class:"wide"},
-  {name:"María", img:"https://picsum.photos/400?5", class:""},
-  {name:"Javi", img:"https://picsum.photos/400?6", class:"big"},
-  {name:"Sara", img:"https://picsum.photos/400?7", class:""},
-  {name:"Pedro", img:"https://picsum.photos/400?8", class:"tall"},
-  {name:"Laura", img:"https://picsum.photos/400?9", class:""},
-  {name:"Raúl", img:"https://picsum.photos/400?10", class:"wide"},
+/* ===== GENERAR 200 ITEMS FIJOS ===== */
+const data = [];
+const patterns = ["", "big", "", "tall", "", "wide", "", "", "big", ""];
 
-  {name:"Elena", img:"https://picsum.photos/400?11", class:""},
-  {name:"Iván", img:"https://picsum.photos/400?12", class:"big"},
-  {name:"Nuria", img:"https://picsum.photos/400?13", class:""},
-  {name:"Pablo", img:"https://picsum.photos/400?14", class:"tall"},
-  {name:"Clara", img:"https://picsum.photos/400?15", class:""},
-  {name:"Adrián", img:"https://picsum.photos/400?16", class:"wide"},
-  {name:"Rosa", img:"https://picsum.photos/400?17", class:""},
-  {name:"Diego", img:"https://picsum.photos/400?18", class:"big"},
-  {name:"Marta", img:"https://picsum.photos/400?19", class:""},
-  {name:"Alex", img:"https://picsum.photos/400?20", class:"tall"}
-];
+for (let i = 1; i <= 200; i++) {
+    data.push({
+        name: "Usuario " + i,
+        img: "https://picsum.photos/400?random=" + i,
+        class: patterns[i % patterns.length]
+    });
+}
 
-/* GENERAR GRID */
-data.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "card " + item.class;
+/* CREAR CARDS */
+function render(items) {
+    items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "card " + item.class;
 
-    div.innerHTML = `
-        <img src="${item.img}">
-        <span>${item.name}</span>
-    `;
+        div.innerHTML = `
+            <img src="${item.img}">
+            <span>${item.name}</span>
+        `;
 
-    grid.appendChild(div);
+        grid.appendChild(div);
+    });
+}
+
+/* render normal */
+render(data);
+
+/* duplicado para loop */
+render(data);
+
+/* SCROLL INFINITO */
+window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const scrollHeight = document.body.scrollHeight;
+    const windowHeight = window.innerHeight;
+
+    if (scrollTop + windowHeight >= scrollHeight - 5) {
+        window.scrollTo(0, 0);
+    }
 });
 </script>
 
