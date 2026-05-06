@@ -15,7 +15,7 @@ body {
     overflow: hidden;
 }
 
-/* ===== OVERLAY +18 MEJORADO ===== */
+/* ===== OVERLAY ===== */
 #overlay {
     position: fixed;
     top: 0;
@@ -30,7 +30,6 @@ body {
     z-index: 999;
 }
 
-/* tarjeta central */
 .overlay-card {
     text-align: center;
     color: white;
@@ -42,27 +41,23 @@ body {
     max-width: 420px;
 }
 
-/* icono */
 .overlay-icon {
     font-size: 55px;
     margin-bottom: 10px;
     animation: pulse 1.8s infinite;
 }
 
-/* título */
 .overlay-card h2 {
     font-size: 26px;
     margin: 10px 0;
 }
 
-/* subtítulo */
 .overlay-card p {
     font-size: 14px;
     opacity: 0.7;
     margin-bottom: 25px;
 }
 
-/* botones */
 .buttons {
     display: flex;
     gap: 15px;
@@ -79,31 +74,17 @@ button {
     font-weight: bold;
 }
 
-/* verde */
 #yes {
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
-    box-shadow: 0 0 20px rgba(34,197,94,0.4);
 }
 
-#yes:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 30px rgba(34,197,94,0.7);
-}
-
-/* rojo */
 #no {
     background: linear-gradient(135deg, #ef4444, #b91c1c);
     color: white;
-    box-shadow: 0 0 20px rgba(239,68,68,0.4);
 }
 
-#no:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 30px rgba(239,68,68,0.7);
-}
-
-/* ===== WEB ===== */
+/* ===== GRID ===== */
 h1 {
     position: fixed;
     top: 10px;
@@ -150,7 +131,6 @@ h1 {
     border-radius: 5px;
 }
 
-/* tamaños */
 .big { grid-column: span 2; grid-row: span 2; }
 .wide { grid-column: span 2; }
 .tall { grid-row: span 2; }
@@ -167,7 +147,6 @@ h1 {
     filter: brightness(1);
 }
 
-/* animaciones */
 @keyframes popIn {
     from { transform: scale(0.7); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
@@ -199,39 +178,50 @@ h1 {
 
 <h1>📸 La Galería VIP</h1>
 
-<div class="grid">
+<div class="grid" id="grid"></div>
 
 <script>
-const grid = document.currentScript.parentElement;
+const grid = document.getElementById("grid");
 
-const names = [
-"Ana","Carlos","Lucía","David","María","Javi","Sara","Pedro","Laura","Raúl",
-"Elena","Iván","Nuria","Pablo","Clara","Adrián","Rosa","Diego","Marta","Alex",
-"Julia","Hugo","Sofía","Bruno","Alicia","Tomás","Vera","Leo","Noa","Eric",
-"Paula","Mario","Alba","Samuel","Inés","Joel","Carmen","Gonzalo","Patri","Dani",
-"Lola","Ángel","Eva","Rubén","Nico","Silvia","Lucas","Valeria","Andrés","Emma"
+/* ===== DATOS FIJOS ===== */
+/* SOLO EDITAS AQUÍ */
+const data = [
+  {name:"Ana", img:"https://picsum.photos/400?1", class:"big"},
+  {name:"Carlos", img:"https://picsum.photos/400?2", class:""},
+  {name:"Lucía", img:"https://picsum.photos/400?3", class:"tall"},
+  {name:"David", img:"https://picsum.photos/400?4", class:"wide"},
+  {name:"María", img:"https://picsum.photos/400?5", class:""},
+  {name:"Javi", img:"https://picsum.photos/400?6", class:"big"},
+  {name:"Sara", img:"https://picsum.photos/400?7", class:""},
+  {name:"Pedro", img:"https://picsum.photos/400?8", class:"tall"},
+  {name:"Laura", img:"https://picsum.photos/400?9", class:""},
+  {name:"Raúl", img:"https://picsum.photos/400?10", class:"wide"},
+
+  {name:"Elena", img:"https://picsum.photos/400?11", class:""},
+  {name:"Iván", img:"https://picsum.photos/400?12", class:"big"},
+  {name:"Nuria", img:"https://picsum.photos/400?13", class:""},
+  {name:"Pablo", img:"https://picsum.photos/400?14", class:"tall"},
+  {name:"Clara", img:"https://picsum.photos/400?15", class:""},
+  {name:"Adrián", img:"https://picsum.photos/400?16", class:"wide"},
+  {name:"Rosa", img:"https://picsum.photos/400?17", class:""},
+  {name:"Diego", img:"https://picsum.photos/400?18", class:"big"},
+  {name:"Marta", img:"https://picsum.photos/400?19", class:""},
+  {name:"Alex", img:"https://picsum.photos/400?20", class:"tall"}
 ];
 
-for (let i = 1; i <= 200; i++) {
+/* GENERAR GRID */
+data.forEach(item => {
     const div = document.createElement("div");
-    div.className = "card";
-
-    const types = ["", "big", "wide", "tall"];
-    const type = types[Math.floor(Math.random() * types.length)];
-    if (type) div.classList.add(type);
-
-    const name = names[Math.floor(Math.random() * names.length)];
+    div.className = "card " + item.class;
 
     div.innerHTML = `
-        <img src="https://picsum.photos/400?random=${i}">
-        <span>${name}</span>
+        <img src="${item.img}">
+        <span>${item.name}</span>
     `;
 
     grid.appendChild(div);
-}
+});
 </script>
-
-</div>
 
 <script>
 document.getElementById("yes").onclick = () => {
@@ -240,7 +230,7 @@ document.getElementById("yes").onclick = () => {
 };
 
 document.getElementById("no").onclick = () => {
-    window.location.href = "https://www.youtube.com/watch?v=XqZsoesa55w&list=RDXqZsoesa55w&start_radio=1";
+    window.location.href = "https://www.youtube.com/watch?v=XqZsoesa55w";
 };
 </script>
 
