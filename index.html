@@ -1,1 +1,154 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Muro Vivo</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+/* título flotante */
+h1 {
+    position: fixed;
+    top: 10px;
+    left: 15px;
+    color: white;
+    font-size: 14px;
+    opacity: 0.7;
+    z-index: 10;
+}
+
+/* grid principal */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-auto-rows: 140px;
+    grid-auto-flow: dense;
+    gap: 8px;
+    padding: 10px;
+}
+
+/* tarjeta */
+.card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* imagen */
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85);
+    transition: 0.3s;
+}
+
+/* nombre */
+.card span {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    font-size: 11px;
+    color: white;
+    background: rgba(0,0,0,0.5);
+    padding: 3px 6px;
+    border-radius: 6px;
+}
+
+/* tamaños */
+.big { grid-column: span 2; grid-row: span 2; }
+.wide { grid-column: span 2; }
+.tall { grid-row: span 2; }
+
+/* efecto divertido */
+.card:nth-child(odd) { transform: rotate(-1deg); }
+.card:nth-child(even) { transform: rotate(1deg); }
+
+.card:hover {
+    transform: scale(1.08) rotate(0deg);
+    z-index: 2;
+}
+
+.card:hover img {
+    filter: brightness(1);
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>📸 Muro vivo de la comunidad</h1>
+
+<div class="grid">
+
+<div class="card big"><img src="https://picsum.photos/400?1"><span>Ana</span></div>
+<div class="card"><img src="https://picsum.photos/300?2"><span>Carlos</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?3"><span>Lucía</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?4"><span>David</span></div>
+<div class="card"><img src="https://picsum.photos/300?5"><span>María</span></div>
+<div class="card big"><img src="https://picsum.photos/400?6"><span>Javi</span></div>
+<div class="card"><img src="https://picsum.photos/300?7"><span>Sara</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?8"><span>Pedro</span></div>
+<div class="card"><img src="https://picsum.photos/300?9"><span>Laura</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?10"><span>Raúl</span></div>
+
+<div class="card"><img src="https://picsum.photos/300?11"><span>Elena</span></div>
+<div class="card big"><img src="https://picsum.photos/400?12"><span>Iván</span></div>
+<div class="card"><img src="https://picsum.photos/300?13"><span>Nuria</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?14"><span>Pablo</span></div>
+<div class="card"><img src="https://picsum.photos/300?15"><span>Clara</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?16"><span>Adrián</span></div>
+<div class="card"><img src="https://picsum.photos/300?17"><span>Rosa</span></div>
+<div class="card big"><img src="https://picsum.photos/400?18"><span>Diego</span></div>
+<div class="card"><img src="https://picsum.photos/300?19"><span>Marta</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?20"><span>Alex</span></div>
+
+<div class="card"><img src="https://picsum.photos/300?21"><span>Julia</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?22"><span>Hugo</span></div>
+<div class="card"><img src="https://picsum.photos/300?23"><span>Sofía</span></div>
+<div class="card big"><img src="https://picsum.photos/400?24"><span>Bruno</span></div>
+<div class="card"><img src="https://picsum.photos/300?25"><span>Alicia</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?26"><span>Tomás</span></div>
+<div class="card"><img src="https://picsum.photos/300?27"><span>Vera</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?28"><span>Leo</span></div>
+<div class="card"><img src="https://picsum.photos/300?29"><span>Noa</span></div>
+<div class="card big"><img src="https://picsum.photos/400?30"><span>Eric</span></div>
+
+<div class="card"><img src="https://picsum.photos/300?31"><span>Paula</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?32"><span>Mario</span></div>
+<div class="card"><img src="https://picsum.photos/300?33"><span>Alba</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?34"><span>Samuel</span></div>
+<div class="card"><img src="https://picsum.photos/300?35"><span>Inés</span></div>
+<div class="card big"><img src="https://picsum.photos/400?36"><span>Joel</span></div>
+<div class="card"><img src="https://picsum.photos/300?37"><span>Carmen</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?38"><span>Gonzalo</span></div>
+<div class="card"><img src="https://picsum.photos/300?39"><span>Patri</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?40"><span>Dani</span></div>
+
+<div class="card"><img src="https://picsum.photos/300?41"><span>Lola</span></div>
+<div class="card big"><img src="https://picsum.photos/400?42"><span>Ángel</span></div>
+<div class="card"><img src="https://picsum.photos/300?43"><span>Eva</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?44"><span>Rubén</span></div>
+<div class="card"><img src="https://picsum.photos/300?45"><span>Nico</span></div>
+<div class="card tall"><img src="https://picsum.photos/200/400?46"><span>Silvia</span></div>
+<div class="card"><img src="https://picsum.photos/300?47"><span>Lucas</span></div>
+<div class="card big"><img src="https://picsum.photos/400?48"><span>Valeria</span></div>
+<div class="card"><img src="https://picsum.photos/300?49"><span>Andrés</span></div>
+<div class="card wide"><img src="https://picsum.photos/400/200?50"><span>Emma</span></div>
+
+</div>
+
+</body>
+</html>
 
