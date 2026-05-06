@@ -13,7 +13,6 @@ body {
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b);
     overflow: hidden;
-    transition: transform 0.8s ease, filter 0.8s ease;
 }
 
 /* ===== OVERLAY ===== */
@@ -44,7 +43,6 @@ body {
     font-size: 55px;
     margin-bottom: 10px;
     animation: pulse 1.8s infinite;
-    text-shadow: 0 0 20px rgba(255,255,255,0.5);
 }
 
 /* BOTONES */
@@ -94,7 +92,6 @@ h1 {
     height: 100%;
     object-fit: cover;
     filter: brightness(0.85);
-    transition: 0.3s;
 }
 
 .card span {
@@ -112,36 +109,45 @@ h1 {
 .wide { grid-column: span 2; }
 .tall { grid-row: span 2; }
 
-.card:nth-child(odd) { transform: rotate(-1deg); }
-.card:nth-child(even) { transform: rotate(1deg); }
-
-.card:hover {
-    transform: scale(1.07) rotate(0deg);
-    z-index: 2;
-}
-
-/* ===== AGUJERO NEGRO ===== */
+/* ===== AGUJERO NEGRO SUAVE ===== */
 .blackhole {
-    animation: suck 0.8s forwards ease-in;
+    animation: smoothSuck 1.4s ease-in forwards;
+    transform-origin: center center;
 }
 
-@keyframes suck {
+@keyframes smoothSuck {
     0% {
         transform: scale(1);
-        filter: blur(0px) brightness(1);
+        filter: brightness(1);
     }
     40% {
-        transform: scale(1.2) rotate(3deg);
-        filter: blur(3px) brightness(1.3);
+        transform: scale(0.95);
+        filter: brightness(0.9);
     }
-    80% {
-        transform: scale(0.15) rotate(12deg);
-        filter: blur(12px) brightness(2);
+    70% {
+        transform: scale(0.6);
+        filter: blur(4px) brightness(0.8);
     }
     100% {
-        transform: scale(0);
-        filter: blur(25px) brightness(3);
+        transform: scale(0.2);
+        filter: blur(12px) brightness(0.6);
     }
+}
+
+/* VIGNETTE (profesional) */
+.vignette {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 20%, rgba(0,0,0,0.8) 70%);
+    opacity: 0;
+    z-index: 500;
+    pointer-events: none;
+    animation: vignetteIn 1.4s forwards;
+}
+
+@keyframes vignetteIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* FLASH FINAL */
@@ -151,12 +157,12 @@ h1 {
     background: white;
     opacity: 0;
     z-index: 9999;
-    animation: flash 0.4s forwards;
+    animation: flash 0.6s forwards;
 }
 
 @keyframes flash {
     0% { opacity: 0; }
-    50% { opacity: 1; }
+    40% { opacity: 0.7; }
     100% { opacity: 0; }
 }
 
@@ -207,7 +213,7 @@ for (let i = 1; i <= 1000; i++) {
     grid.appendChild(div);
 }
 
-/* ===== EFECTO AGUJERO NEGRO ===== */
+/* ===== EFECTO PROFESIONAL ===== */
 let animando = false;
 
 window.addEventListener("scroll", () => {
@@ -218,18 +224,24 @@ window.addEventListener("scroll", () => {
 
         document.body.classList.add("blackhole");
 
-        const flash = document.createElement("div");
-        flash.className = "flash";
-        document.body.appendChild(flash);
+        const vignette = document.createElement("div");
+        vignette.className = "vignette";
+        document.body.appendChild(vignette);
+
+        setTimeout(() => {
+            const flash = document.createElement("div");
+            flash.className = "flash";
+            document.body.appendChild(flash);
+        }, 900);
 
         setTimeout(() => {
             window.scrollTo(0, 0);
 
             document.body.classList.remove("blackhole");
-            flash.remove();
+            vignette.remove();
 
             animando = false;
-        }, 800);
+        }, 1400);
     }
 });
 
