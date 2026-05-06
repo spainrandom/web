@@ -6,17 +6,104 @@
 <link rel="icon" type="image/png" href="favicon.png">
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0f172a, #1e293b);
+    overflow: hidden;
+}
+
+/* ===== OVERLAY +18 MEJORADO ===== */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(18px);
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+/* tarjeta central */
+.overlay-card {
+    text-align: center;
+    color: white;
+    background: rgba(15, 23, 42, 0.75);
+    padding: 45px 35px;
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.6);
+    animation: popIn 0.5s ease;
+    max-width: 420px;
+}
+
+/* icono */
+.overlay-icon {
+    font-size: 55px;
+    margin-bottom: 10px;
+    animation: pulse 1.8s infinite;
 }
 
 /* título */
+.overlay-card h2 {
+    font-size: 26px;
+    margin: 10px 0;
+}
+
+/* subtítulo */
+.overlay-card p {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 25px;
+}
+
+/* botones */
+.buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+button {
+    padding: 14px 18px;
+    font-size: 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.25s;
+    font-weight: bold;
+}
+
+/* verde */
+#yes {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    color: white;
+    box-shadow: 0 0 20px rgba(34,197,94,0.4);
+}
+
+#yes:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px rgba(34,197,94,0.7);
+}
+
+/* rojo */
+#no {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    color: white;
+    box-shadow: 0 0 20px rgba(239,68,68,0.4);
+}
+
+#no:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 30px rgba(239,68,68,0.7);
+}
+
+/* ===== WEB ===== */
 h1 {
     position: fixed;
     top: 10px;
@@ -27,138 +114,134 @@ h1 {
     z-index: 10;
 }
 
-/* 🔥 GRID CAÓTICO TIPO PINTEREST */
 .grid {
-    column-count: 7;
-    column-gap: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-auto-rows: 120px;
+    grid-auto-flow: dense;
+    gap: 6px;
     padding: 10px;
 }
 
-/* responsive */
-@media (max-width: 1400px) { .grid { column-count: 6; } }
-@media (max-width: 1100px) { .grid { column-count: 5; } }
-@media (max-width: 800px)  { .grid { column-count: 3; } }
-@media (max-width: 500px)  { .grid { column-count: 2; } }
-
-/* tarjeta */
 .card {
-    break-inside: avoid;
-    margin-bottom: 10px;
-    border-radius: 14px;
-    overflow: hidden;
     position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    transition: 0.3s;
     cursor: pointer;
-    transition: 0.25s;
-    transform: rotate(var(--r, 0deg));
 }
 
-/* imagen mantiene forma real */
 .card img {
     width: 100%;
-    height: auto;
-    display: block;
-    filter: brightness(0.88);
-    transition: 0.25s;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85);
+    transition: 0.3s;
 }
 
-/* nombre */
 .card span {
     position: absolute;
-    bottom: 6px;
-    left: 6px;
-    font-size: 11px;
+    bottom: 5px;
+    left: 5px;
+    font-size: 10px;
     color: white;
-    background: rgba(0,0,0,0.55);
-    padding: 3px 6px;
-    border-radius: 6px;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 5px;
+    border-radius: 5px;
 }
 
-/* hover */
+/* tamaños */
+.big { grid-column: span 2; grid-row: span 2; }
+.wide { grid-column: span 2; }
+.tall { grid-row: span 2; }
+
+.card:nth-child(odd) { transform: rotate(-1deg); }
+.card:nth-child(even) { transform: rotate(1deg); }
+
 .card:hover {
-    transform: scale(1.05) rotate(0deg);
+    transform: scale(1.07) rotate(0deg);
     z-index: 2;
 }
 
 .card:hover img {
     filter: brightness(1);
 }
+
+/* animaciones */
+@keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
 </style>
 </head>
 
 <body>
 
+<!-- OVERLAY -->
+<div id="overlay">
+    <div class="overlay-card">
+        <div class="overlay-icon">🔞</div>
+        <h2>¿Eres mayor de 18 años?</h2>
+        <p>Accede a la galería de la comunidad</p>
+
+        <div class="buttons">
+            <button id="yes">Sí, soy mayor de 18 años</button>
+            <button id="no">No, no lo soy</button>
+        </div>
+    </div>
+</div>
+
 <h1>📸 La Galería VIP</h1>
 
 <div class="grid">
 
-<div class="card"><img src="https://picsum.photos/500/700?1"><span>Ana</span></div>
-<div class="card"><img src="https://picsum.photos/600/400?2"><span>Carlos</span></div>
-<div class="card"><img src="https://picsum.photos/500/500?3"><span>Lucía</span></div>
-<div class="card"><img src="https://picsum.photos/400/600?4"><span>David</span></div>
-<div class="card"><img src="https://picsum.photos/700/500?5"><span>María</span></div>
+<script>
+const grid = document.currentScript.parentElement;
 
-<div class="card"><img src="https://picsum.photos/500/800?6"><span>Javi</span></div>
-<div class="card"><img src="https://picsum.photos/600/600?7"><span>Sara</span></div>
-<div class="card"><img src="https://picsum.photos/400/500?8"><span>Pedro</span></div>
-<div class="card"><img src="https://picsum.photos/800/500?9"><span>Laura</span></div>
-<div class="card"><img src="https://picsum.photos/500/400?10"><span>Raúl</span></div>
+const names = [
+"Ana","Carlos","Lucía","David","María","Javi","Sara","Pedro","Laura","Raúl",
+"Elena","Iván","Nuria","Pablo","Clara","Adrián","Rosa","Diego","Marta","Alex",
+"Julia","Hugo","Sofía","Bruno","Alicia","Tomás","Vera","Leo","Noa","Eric",
+"Paula","Mario","Alba","Samuel","Inés","Joel","Carmen","Gonzalo","Patri","Dani",
+"Lola","Ángel","Eva","Rubén","Nico","Silvia","Lucas","Valeria","Andrés","Emma"
+];
 
-<div class="card"><img src="https://picsum.photos/600/700?11"><span>Elena</span></div>
-<div class="card"><img src="https://picsum.photos/700/700?12"><span>Iván</span></div>
-<div class="card"><img src="https://picsum.photos/500/300?13"><span>Nuria</span></div>
-<div class="card"><img src="https://picsum.photos/400/700?14"><span>Pablo</span></div>
-<div class="card"><img src="https://picsum.photos/600/450?15"><span>Clara</span></div>
+for (let i = 1; i <= 200; i++) {
+    const div = document.createElement("div");
+    div.className = "card";
 
-<div class="card"><img src="https://picsum.photos/450/600?16"><span>Adrián</span></div>
-<div class="card"><img src="https://picsum.photos/550/550?17"><span>Rosa</span></div>
-<div class="card"><img src="https://picsum.photos/700/450?18"><span>Diego</span></div>
-<div class="card"><img src="https://picsum.photos/500/650?19"><span>Marta</span></div>
-<div class="card"><img src="https://picsum.photos/650/500?20"><span>Alex</span></div>
+    const types = ["", "big", "wide", "tall"];
+    const type = types[Math.floor(Math.random() * types.length)];
+    if (type) div.classList.add(type);
 
-<div class="card"><img src="https://picsum.photos/600/800?21"><span>Julia</span></div>
-<div class="card"><img src="https://picsum.photos/500/500?22"><span>Hugo</span></div>
-<div class="card"><img src="https://picsum.photos/700/600?23"><span>Sofía</span></div>
-<div class="card"><img src="https://picsum.photos/600/400?24"><span>Bruno</span></div>
-<div class="card"><img src="https://picsum.photos/400/400?25"><span>Alicia</span></div>
+    const name = names[Math.floor(Math.random() * names.length)];
 
-<div class="card"><img src="https://picsum.photos/800/600?26"><span>Tomás</span></div>
-<div class="card"><img src="https://picsum.photos/500/700?27"><span>Vera</span></div>
-<div class="card"><img src="https://picsum.photos/450/450?28"><span>Leo</span></div>
-<div class="card"><img src="https://picsum.photos/700/800?29"><span>Noa</span></div>
-<div class="card"><img src="https://picsum.photos/600/500?30"><span>Eric</span></div>
+    div.innerHTML = `
+        <img src="https://picsum.photos/400?random=${i}">
+        <span>${name}</span>
+    `;
 
-<div class="card"><img src="https://picsum.photos/500/600?31"><span>Paula</span></div>
-<div class="card"><img src="https://picsum.photos/600/600?32"><span>Mario</span></div>
-<div class="card"><img src="https://picsum.photos/700/500?33"><span>Alba</span></div>
-<div class="card"><img src="https://picsum.photos/500/500?34"><span>Samuel</span></div>
-<div class="card"><img src="https://picsum.photos/600/700?35"><span>Inés</span></div>
-
-<div class="card"><img src="https://picsum.photos/450/650?36"><span>Joel</span></div>
-<div class="card"><img src="https://picsum.photos/700/450?37"><span>Carmen</span></div>
-<div class="card"><img src="https://picsum.photos/600/500?38"><span>Gonzalo</span></div>
-<div class="card"><img src="https://picsum.photos/500/400?39"><span>Patri</span></div>
-<div class="card"><img src="https://picsum.photos/400/600?40"><span>Dani</span></div>
-
-<div class="card"><img src="https://picsum.photos/500/500?41"><span>Lola</span></div>
-<div class="card"><img src="https://picsum.photos/600/800?42"><span>Ángel</span></div>
-<div class="card"><img src="https://picsum.photos/700/600?43"><span>Eva</span></div>
-<div class="card"><img src="https://picsum.photos/500/450?44"><span>Rubén</span></div>
-<div class="card"><img src="https://picsum.photos/600/400?45"><span>Nico</span></div>
-
-<div class="card"><img src="https://picsum.photos/450/600?46"><span>Silvia</span></div>
-<div class="card"><img src="https://picsum.photos/600/500?47"><span>Lucas</span></div>
-<div class="card"><img src="https://picsum.photos/700/700?48"><span>Valeria</span></div>
-<div class="card"><img src="https://picsum.photos/500/600?49"><span>Andrés</span></div>
-<div class="card"><img src="https://picsum.photos/600/600?50"><span>Emma</span></div>
+    grid.appendChild(div);
+}
+</script>
 
 </div>
 
-<!-- 🔥 efecto caos visual -->
 <script>
-document.querySelectorAll(".card").forEach(card => {
-    const rot = (Math.random() * 2 - 1.2).toFixed(2);
-    card.style.setProperty("--r", rot + "deg");
-});
+document.getElementById("yes").onclick = () => {
+    document.getElementById("overlay").style.display = "none";
+    document.body.style.overflow = "auto";
+};
+
+document.getElementById("no").onclick = () => {
+    window.location.href = "https://www.youtube.com/watch?v=XqZsoesa55w&list=RDXqZsoesa55w&start_radio=1";
+};
 </script>
 
 </body>
