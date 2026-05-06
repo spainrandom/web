@@ -183,7 +183,7 @@ h1 {
 <script>
 const grid = document.getElementById("grid");
 
-/* ===== GENERAR 200 ITEMS FIJOS ===== */
+/* ===== GENERAR 200 ITEMS ===== */
 const data = [];
 const patterns = ["", "big", "", "tall", "", "wide", "", "", "big", ""];
 
@@ -195,7 +195,7 @@ for (let i = 1; i <= 200; i++) {
     });
 }
 
-/* CREAR CARDS */
+/* RENDER */
 function render(items) {
     items.forEach(item => {
         const div = document.createElement("div");
@@ -210,20 +210,43 @@ function render(items) {
     });
 }
 
-/* render normal */
+/* render doble */
+render(data);
 render(data);
 
-/* duplicado para loop */
-render(data);
+/* ===== LOOP INFINITO REAL ===== */
 
-/* SCROLL INFINITO */
+let isAdjusting = false;
+
 window.addEventListener("scroll", () => {
-    const scrollTop = window.scrollY;
-    const scrollHeight = document.body.scrollHeight;
-    const windowHeight = window.innerHeight;
+    if (isAdjusting) return;
 
-    if (scrollTop + windowHeight >= scrollHeight - 5) {
-        window.scrollTo(0, 0);
+    const scrollTop = window.scrollY;
+    const totalHeight = document.body.scrollHeight;
+    const half = totalHeight / 2;
+
+    /* cuando pasas la mitad */
+    if (scrollTop > half) {
+        isAdjusting = true;
+
+        window.scrollTo({
+            top: scrollTop - half,
+            behavior: "instant"
+        });
+
+        isAdjusting = false;
+    }
+
+    /* opcional: si subes demasiado arriba */
+    if (scrollTop < 10) {
+        isAdjusting = true;
+
+        window.scrollTo({
+            top: scrollTop + half,
+            behavior: "instant"
+        });
+
+        isAdjusting = false;
     }
 });
 </script>
