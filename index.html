@@ -28,6 +28,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 999;
+    transition: 0.5s;
 }
 
 .overlay-card {
@@ -45,6 +46,7 @@ body {
     font-size: 55px;
     margin-bottom: 10px;
     animation: pulse 1.8s infinite;
+    text-shadow: 0 0 20px rgba(255,255,255,0.5);
 }
 
 .overlay-card h2 {
@@ -58,6 +60,7 @@ body {
     margin-bottom: 25px;
 }
 
+/* ===== BOTONES PRO ===== */
 .buttons {
     display: flex;
     gap: 15px;
@@ -65,23 +68,61 @@ body {
 }
 
 button {
-    padding: 14px 18px;
+    position: relative;
+    padding: 14px 20px;
     font-size: 14px;
     border: none;
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
-    transition: 0.25s;
     font-weight: bold;
+    overflow: hidden;
+    transition: 0.25s;
 }
 
+/* brillo animado */
+button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: 0.6s;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+/* verde */
 #yes {
     background: linear-gradient(135deg, #22c55e, #16a34a);
     color: white;
+    box-shadow: 0 0 20px rgba(34,197,94,0.4);
 }
 
+#yes:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px rgba(34,197,94,0.9);
+}
+
+/* rojo */
 #no {
     background: linear-gradient(135deg, #ef4444, #b91c1c);
     color: white;
+    box-shadow: 0 0 20px rgba(239,68,68,0.4);
+}
+
+#no:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px rgba(239,68,68,0.9);
+}
+
+/* click físico */
+button:active {
+    transform: scale(0.95);
+    filter: brightness(0.9);
 }
 
 /* ===== GRID ===== */
@@ -195,7 +236,6 @@ for (let i = 1; i <= 200; i++) {
     });
 }
 
-/* RENDER */
 function render(items) {
     items.forEach(item => {
         const div = document.createElement("div");
@@ -210,12 +250,10 @@ function render(items) {
     });
 }
 
-/* render doble */
 render(data);
 render(data);
 
-/* ===== LOOP INFINITO REAL ===== */
-
+/* LOOP INFINITO */
 let isAdjusting = false;
 
 window.addEventListener("scroll", () => {
@@ -225,27 +263,15 @@ window.addEventListener("scroll", () => {
     const totalHeight = document.body.scrollHeight;
     const half = totalHeight / 2;
 
-    /* cuando pasas la mitad */
     if (scrollTop > half) {
         isAdjusting = true;
-
-        window.scrollTo({
-            top: scrollTop - half,
-            behavior: "instant"
-        });
-
+        window.scrollTo(0, scrollTop - half);
         isAdjusting = false;
     }
 
-    /* opcional: si subes demasiado arriba */
     if (scrollTop < 10) {
         isAdjusting = true;
-
-        window.scrollTo({
-            top: scrollTop + half,
-            behavior: "instant"
-        });
-
+        window.scrollTo(0, scrollTop + half);
         isAdjusting = false;
     }
 });
@@ -253,8 +279,15 @@ window.addEventListener("scroll", () => {
 
 <script>
 document.getElementById("yes").onclick = () => {
-    document.getElementById("overlay").style.display = "none";
-    document.body.style.overflow = "auto";
+    const overlay = document.getElementById("overlay");
+
+    overlay.style.opacity = "0";
+    overlay.style.transform = "scale(1.1)";
+
+    setTimeout(() => {
+        overlay.style.display = "none";
+        document.body.style.overflow = "auto";
+    }, 400);
 };
 
 document.getElementById("no").onclick = () => {
