@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <title>La Galería VIP</title>
-<link rel="icon" type="image/png" href="favicon.png">
 
 <style>
 * { box-sizing: border-box; }
@@ -11,147 +10,72 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
+    background: radial-gradient(circle at center, #020617, #0f172a 70%);
     overflow: hidden;
-    transition: transform 0.8s ease, filter 0.8s ease;
+    transition: transform 1s ease, filter 1s ease;
 }
-
-/* ===== OVERLAY ===== */
-#overlay {
-    position: fixed;
-    inset: 0;
-    backdrop-filter: blur(18px);
-    background: rgba(0,0,0,0.65);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    transition: 0.5s;
-}
-
-.overlay-card {
-    text-align: center;
-    color: white;
-    background: rgba(15, 23, 42, 0.75);
-    padding: 45px 35px;
-    border-radius: 20px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.6);
-    animation: popIn 0.5s ease;
-    max-width: 420px;
-}
-
-.overlay-icon {
-    font-size: 55px;
-    margin-bottom: 10px;
-    animation: pulse 1.8s infinite;
-    text-shadow: 0 0 20px rgba(255,255,255,0.5);
-}
-
-/* BOTONES */
-.buttons { display: flex; gap: 15px; justify-content: center; }
-
-button {
-    padding: 14px 20px;
-    border-radius: 14px;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-#yes { background: #22c55e; color: white; }
-#no { background: #ef4444; color: white; }
 
 /* GRID */
-h1 {
-    position: fixed;
-    top: 10px;
-    left: 15px;
-    color: white;
-    font-size: 14px;
-    opacity: 0.7;
-    z-index: 10;
-}
-
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     grid-auto-rows: 120px;
-    grid-auto-flow: dense;
     gap: 6px;
     padding: 10px;
 }
 
 .card {
-    position: relative;
-    overflow: hidden;
     border-radius: 12px;
-    transition: 0.3s;
-    cursor: pointer;
+    overflow: hidden;
+    transform: rotate(1deg);
 }
 
 .card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: brightness(0.85);
-    transition: 0.3s;
 }
 
-.card span {
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    font-size: 10px;
-    color: white;
-    background: rgba(0,0,0,0.5);
-    padding: 2px 5px;
-    border-radius: 5px;
+/* ===== VORTEX CANVAS ===== */
+#vortexCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
 }
 
-.big { grid-column: span 2; grid-row: span 2; }
-.wide { grid-column: span 2; }
-.tall { grid-row: span 2; }
-
-.card:nth-child(odd) { transform: rotate(-1deg); }
-.card:nth-child(even) { transform: rotate(1deg); }
-
-.card:hover {
-    transform: scale(1.07) rotate(0deg);
-    z-index: 2;
-}
-
-/* ===== AGUJERO NEGRO ===== */
+/* ===== EFECTO SUCCIÓN ===== */
 .blackhole {
-    animation: suck 0.8s forwards ease-in;
+    animation: vortexPull 1.2s forwards ease-in;
 }
 
-@keyframes suck {
+@keyframes vortexPull {
     0% {
-        transform: scale(1);
-        filter: blur(0px) brightness(1);
+        transform: scale(1) rotate(0deg);
+        filter: blur(0px);
     }
     40% {
-        transform: scale(1.2) rotate(3deg);
-        filter: blur(3px) brightness(1.3);
+        transform: scale(1.1) rotate(5deg);
+        filter: blur(2px);
     }
     80% {
-        transform: scale(0.15) rotate(12deg);
-        filter: blur(12px) brightness(2);
+        transform: scale(0.2) rotate(25deg);
+        filter: blur(12px);
     }
     100% {
         transform: scale(0);
-        filter: blur(25px) brightness(3);
+        filter: blur(30px);
     }
 }
 
-/* FLASH FINAL */
+/* FLASH */
 .flash {
     position: fixed;
     inset: 0;
     background: white;
     opacity: 0;
     z-index: 9999;
-    animation: flash 0.4s forwards;
+    animation: flash 0.5s forwards;
 }
 
 @keyframes flash {
@@ -159,55 +83,82 @@ h1 {
     50% { opacity: 1; }
     100% { opacity: 0; }
 }
-
-@keyframes popIn {
-    from { transform: scale(0.7); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-@keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
 </style>
 </head>
 
 <body>
 
-<div id="overlay">
-    <div class="overlay-card">
-        <div class="overlay-icon">🔞</div>
-        <h2>¿Eres mayor de 18 años?</h2>
-        <p>Accede a la galería de la comunidad</p>
-
-        <div class="buttons">
-            <button id="yes">Sí</button>
-            <button id="no">No</button>
-        </div>
-    </div>
-</div>
-
-<h1>📸 La Galería VIP</h1>
+<canvas id="vortexCanvas"></canvas>
 <div class="grid" id="grid"></div>
 
 <script>
+/* ===== GRID ===== */
 const grid = document.getElementById("grid");
 
-const patterns = ["", "big", "", "tall", "", "wide", "", "", "big", ""];
-
-for (let i = 1; i <= 1000; i++) {
+for (let i = 1; i <= 800; i++) {
     const div = document.createElement("div");
-    div.className = "card " + patterns[i % patterns.length];
-
-    div.innerHTML = `
-        <img src="https://picsum.photos/400?random=${i}" loading="lazy">
-        <span>Usuario ${i}</span>
-    `;
-
+    div.className = "card";
+    div.innerHTML = `<img src="https://picsum.photos/400?random=${i}">`;
     grid.appendChild(div);
 }
 
-/* ===== EFECTO AGUJERO NEGRO ===== */
+/* ===== VORTEX PARTICLES ===== */
+const canvas = document.getElementById("vortexCanvas");
+const ctx = canvas.getContext("2d");
+
+let w, h, cx, cy;
+function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cx = w / 2;
+    cy = h / 2;
+}
+window.addEventListener("resize", resize);
+resize();
+
+let particles = [];
+
+function createParticles() {
+    particles = [];
+    for (let i = 0; i < 400; i++) {
+        particles.push({
+            angle: Math.random() * Math.PI * 2,
+            radius: Math.random() * Math.max(w, h),
+            speed: 0.02 + Math.random() * 0.05,
+            size: Math.random() * 2
+        });
+    }
+}
+
+function drawParticles() {
+    ctx.clearRect(0, 0, w, h);
+
+    particles.forEach(p => {
+        p.angle += p.speed;
+        p.radius *= 0.97;
+
+        const x = cx + Math.cos(p.angle) * p.radius;
+        const y = cy + Math.sin(p.angle) * p.radius;
+
+        ctx.beginPath();
+        ctx.arc(x, y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255,255,255,0.7)";
+        ctx.fill();
+    });
+}
+
+let vortexActive = false;
+
+function animate() {
+    if (vortexActive) drawParticles();
+    requestAnimationFrame(animate);
+}
+animate();
+
+/* ===== SONIDO ===== */
+const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_115b9bce9f.mp3?filename=whoosh-6316.mp3");
+
+/* ===== SCROLL TRIGGER ===== */
 let animando = false;
 
 window.addEventListener("scroll", () => {
@@ -215,6 +166,11 @@ window.addEventListener("scroll", () => {
 
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 5) {
         animando = true;
+        vortexActive = true;
+
+        createParticles();
+        audio.currentTime = 0;
+        audio.play();
 
         document.body.classList.add("blackhole");
 
@@ -228,26 +184,11 @@ window.addEventListener("scroll", () => {
             document.body.classList.remove("blackhole");
             flash.remove();
 
+            vortexActive = false;
             animando = false;
-        }, 800);
+        }, 1200);
     }
 });
-
-/* ===== OVERLAY ===== */
-document.getElementById("yes").onclick = () => {
-    const overlay = document.getElementById("overlay");
-    overlay.style.opacity = "0";
-    overlay.style.transform = "scale(1.1)";
-
-    setTimeout(() => {
-        overlay.style.display = "none";
-        document.body.style.overflow = "auto";
-    }, 400);
-};
-
-document.getElementById("no").onclick = () => {
-    window.location.href = "https://www.youtube.com/watch?v=XqZsoesa55w";
-};
 </script>
 
 </body>
