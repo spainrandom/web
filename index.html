@@ -208,11 +208,22 @@ for (let i = 1; i <= 1000; i++) {
     div.className = "card " + patterns[i % patterns.length];
 
     const img = document.createElement("img");
-    img.src = `https://picsum.photos/400?random=${i}`;
-    img.loading = "lazy";
 
+    if (i === 1) {
+        img.src = "files/byjose07.jpeg"; // tu imagen
+    } else {
+        img.src = `https://picsum.photos/400?random=${i}`;
+    }
+    
+    img.loading = "lazy";
+    
     const span = document.createElement("span");
-    span.textContent = "Usuario " + i;
+    
+    if (i === 1) {
+        span.textContent = "byjose07"; // tu nombre
+    } else {
+        span.textContent = "Usuario " + i;
+    }
 
     div.appendChild(img);
     div.appendChild(span);
